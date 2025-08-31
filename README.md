@@ -22,7 +22,7 @@ A complete, production-ready Firebase authentication system with Google OAuth in
 
 ## 🎯 Live Demo
 
-Try the live demo: [FireAuthFlow Demo](https://github.com/autosterea/FireAuthFlow)
+Try the live demo: [FireAuthFlow Demo](https://authflow.autosterea.com/)
 
 - Click "Try Demo Login" to test Google authentication
 - View the dashboard to see user information and auth status
