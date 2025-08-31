@@ -1,6 +1,6 @@
 # Firebase Setup Guide
 
-This guide provides detailed step-by-step instructions for setting up Firebase Authentication for this project.
+This guide provides detailed step-by-step instructions for setting up Firebase Authentication for FireAuthFlow.
 
 ## Prerequisites
 
@@ -166,3 +166,9 @@ If you encounter issues:
 - Check the [Firebase Documentation](https://firebase.google.com/docs/auth)
 - Review common issues in this project's GitHub issues
 - Create a new issue with detailed error messages
+
+---
+
+**Developed and open sourced by [Autosterea](https://autosterea.com)**
+
+Created by [Ravi Dewangan](https://github.com/autosterea) • Available on [GitHub](https://github.com/autosterea/FireAuthFlow)

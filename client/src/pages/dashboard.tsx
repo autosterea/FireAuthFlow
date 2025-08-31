@@ -50,7 +50,7 @@ export default function Dashboard() {
                   <path d="M5.5 5.5L7.5 21.5L12 18.5L16.5 21.5L18.5 5.5L12 8.5L5.5 5.5Z"/>
                 </svg>
               </div>
-              <span className="text-lg font-semibold text-foreground">Firebase Authentication Demo</span>
+              <span className="text-lg font-semibold text-foreground">FireAuthFlow</span>
             </div>
 
             {/* User Menu */}

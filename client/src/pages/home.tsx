@@ -53,9 +53,11 @@ export default function Home() {
                   </Button>
                 </Link>
               )}
-              <Button variant="outline" size="lg" className="text-lg px-8 py-3">
-                <Github className="mr-2 h-5 w-5" />
-                View on GitHub
+              <Button variant="outline" size="lg" className="text-lg px-8 py-3" asChild>
+                <a href="https://github.com/autosterea/FireAuthFlow" target="_blank" rel="noopener noreferrer">
+                  <Github className="mr-2 h-5 w-5" />
+                  View on GitHub
+                </a>
               </Button>
             </div>
           </div>
@@ -249,11 +251,44 @@ export default function Home() {
                   <path d="M5.5 5.5L7.5 21.5L12 18.5L16.5 21.5L18.5 5.5L12 8.5L5.5 5.5Z"/>
                 </svg>
               </div>
-              <span className="text-lg font-semibold text-foreground">Firebase Auth Demo</span>
+              <span className="text-lg font-semibold text-foreground">FireAuthFlow</span>
             </div>
-            <p className="text-muted-foreground">
-              Open source template for implementing Firebase authentication with React and TypeScript
+            <p className="text-muted-foreground mb-4">
+              Open source Firebase authentication template for React and TypeScript
             </p>
+            <div className="text-sm text-muted-foreground">
+              <p className="mb-2">
+                Developed and open sourced by{" "}
+                <a 
+                  href="https://autosterea.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary hover:text-primary/80 font-medium transition-colors"
+                >
+                  Autosterea
+                </a>
+              </p>
+              <p>
+                Created by{" "}
+                <a 
+                  href="https://github.com/autosterea" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary hover:text-primary/80 font-medium transition-colors"
+                >
+                  Ravi Dewangan
+                </a>
+                {" "} • Available on{" "}
+                <a 
+                  href="https://github.com/autosterea/FireAuthFlow" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary hover:text-primary/80 font-medium transition-colors"
+                >
+                  GitHub
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </footer>

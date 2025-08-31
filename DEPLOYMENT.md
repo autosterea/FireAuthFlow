@@ -1,6 +1,6 @@
 # Deployment Guide
 
-This guide covers deploying your Firebase Authentication app to various hosting platforms.
+This guide covers deploying your FireAuthFlow application to various hosting platforms.
 
 ## Prerequisites
 
@@ -303,4 +303,10 @@ VITE_FIREBASE_APP_ID=your_production_app_id
 
 ---
 
-**Your Firebase Authentication app is now ready for production!** 🚀
+**Your FireAuthFlow app is now ready for production!** 🚀
+
+---
+
+**Developed and open sourced by [Autosterea](https://autosterea.com)**
+
+Created by [Ravi Dewangan](https://github.com/autosterea) • Available on [GitHub](https://github.com/autosterea/FireAuthFlow)

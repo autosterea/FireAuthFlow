@@ -90,6 +90,11 @@ export default function Login() {
                 <p className="text-sm text-muted-foreground">
                   Secure authentication powered by Firebase
                 </p>
+                <p className="text-xs text-muted-foreground mt-2">
+                  <a href="https://autosterea.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 transition-colors">
+                    Powered by Autosterea
+                  </a>
+                </p>
               </div>
             </div>
           </CardContent>

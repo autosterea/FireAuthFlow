@@ -1,8 +1,8 @@
-# Firebase Authentication Demo
+# FireAuthFlow
 
 A complete, production-ready Firebase authentication system with Google OAuth integration, built with React 18, TypeScript, and modern web technologies. This template provides everything you need to implement secure authentication in your web applications.
 
-![Firebase Auth Demo](https://img.shields.io/badge/Firebase-Auth%20Demo-orange?style=for-the-badge&logo=firebase)
+![FireAuthFlow](https://img.shields.io/badge/FireAuthFlow-Firebase%20Auth-orange?style=for-the-badge&logo=firebase)
 ![React](https://img.shields.io/badge/React-18-blue?style=for-the-badge&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-blue?style=for-the-badge&logo=tailwindcss)
@@ -22,7 +22,7 @@ A complete, production-ready Firebase authentication system with Google OAuth in
 
 ## 🎯 Live Demo
 
-Try the live demo: [Firebase Auth Demo](your-demo-url-here)
+Try the live demo: [FireAuthFlow Demo](https://github.com/autosterea/FireAuthFlow)
 
 - Click "Try Demo Login" to test Google authentication
 - View the dashboard to see user information and auth status
@@ -53,8 +53,8 @@ Try the live demo: [Firebase Auth Demo](your-demo-url-here)
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/firebase-auth-demo.git
-   cd firebase-auth-demo
+   git clone https://github.com/autosterea/FireAuthFlow.git
+   cd FireAuthFlow
    ```
 
 2. **Install dependencies**
@@ -536,5 +536,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Email**: your-email@example.com
 
 ---
+
+**Developed and open sourced by [Autosterea](https://autosterea.com)**
+
+Created by [Ravi Dewangan](https://github.com/autosterea) • Available on [GitHub](https://github.com/autosterea/FireAuthFlow)
 
 **Made with ❤️ for the developer community**
