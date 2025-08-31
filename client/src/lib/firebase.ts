@@ -30,13 +30,19 @@ export const signInWithGoogleRedirect = () => {
   return signInWithRedirect(auth, googleProvider);
 };
 
-// Use popup for development, redirect for production
-export const signInWithGoogle = () => {
-  // Use popup for localhost/development, redirect for production
-  if (window.location.hostname === 'localhost' || window.location.hostname.includes('.replit.dev')) {
-    return signInWithGooglePopup();
-  } else {
-    return signInWithGoogleRedirect();
+// Use popup for development with fallback to redirect if popup is blocked
+export const signInWithGoogle = async () => {
+  // Try popup first for better UX
+  try {
+    return await signInWithGooglePopup();
+  } catch (error: any) {
+    // If popup is blocked, fallback to redirect
+    if (error.code === 'auth/popup-blocked' || error.code === 'auth/popup-closed-by-user') {
+      console.log('Popup blocked, falling back to redirect...');
+      return signInWithGoogleRedirect();
+    }
+    // For other errors, rethrow
+    throw error;
   }
 };
 
