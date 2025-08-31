@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { User } from "firebase/auth";
-import { onAuthStateChange } from "@/lib/firebase";
+import { onAuthStateChange, handleRedirectResult } from "@/lib/firebase";
 
 interface AuthContextType {
   user: User | null;
@@ -25,6 +25,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Handle redirect result first
+    const checkRedirectResult = async () => {
+      try {
+        await handleRedirectResult();
+      } catch (error) {
+        console.error('Redirect result error:', error);
+      }
+    };
+    
+    checkRedirectResult();
+
     const unsubscribe = onAuthStateChange((user) => {
       setUser(user);
       setLoading(false);
