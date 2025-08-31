@@ -124,3 +124,28 @@
   from { transform: translateY(10px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
+
+
+/* Enhanced smooth scrolling and performance optimizations */
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+body {
+  scroll-behavior: smooth;
+}
+
+/* Remove pointer cursor for better UX */
+button, a {
+  cursor: default;
+}
+
+/* Optimize animations for performance */
+.transform-gpu {
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}

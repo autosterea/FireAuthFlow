@@ -18,9 +18,9 @@ import {
 import { motion, useScroll, useTransform, useSpring, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 
-// Floating particles component
+// Floating particles component (optimized for performance)
 const FloatingParticles = () => {
-  const particles = Array.from({ length: 50 }, (_, i) => ({
+  const particles = Array.from({ length: 15 }, (_, i) => ({
     id: i,
     x: Math.random() * 100,
     y: Math.random() * 100,
@@ -41,15 +41,15 @@ const FloatingParticles = () => {
             height: particle.size,
           }}
           animate={{
-            y: [0, -100, 0],
-            opacity: [0, 1, 0],
+            y: [0, -60, 0],
+            opacity: [0, 0.6, 0],
             scale: [0, 1, 0],
           }}
           transition={{
-            duration: 8,
+            duration: 12,
             delay: particle.delay,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: "linear",
           }}
         />
       ))}
@@ -69,14 +69,14 @@ const AnimatedCard = ({ children, delay = 0, className = "" }: { children: React
       animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 100, scale: 0.8 }}
       transition={{ duration: 0.8, delay, ease: "easeOut" }}
       whileHover={{ 
-        scale: 1.05, 
-        rotateY: 5,
-        rotateX: 5,
+        scale: 1.02, 
+        y: -5,
         transition: { duration: 0.3 }
       }}
       className={`${className} transform-gpu`}
       style={{
         transformStyle: "preserve-3d",
+        cursor: 'default'
       }}
     >
       {children}
@@ -282,8 +282,9 @@ export default function Home() {
             {!user ? (
               <Link href="/login">
                 <motion.div
-                  whileHover={{ scale: 1.1, rotateY: 5 }}
+                  whileHover={{ scale: 1.05, y: -3 }}
                   whileTap={{ scale: 0.95 }}
+                  style={{ cursor: 'default' }}
                 >
                   <Button 
                     size="lg" 
@@ -305,8 +306,9 @@ export default function Home() {
             ) : (
               <Link href="/dashboard">
                 <motion.div
-                  whileHover={{ scale: 1.1, rotateY: 5 }}
+                  whileHover={{ scale: 1.05, y: -3 }}
                   whileTap={{ scale: 0.95 }}
+                  style={{ cursor: 'default' }}
                 >
                   <Button 
                     size="lg" 
@@ -320,8 +322,9 @@ export default function Home() {
             )}
             
             <motion.div
-              whileHover={{ scale: 1.05, y: -5 }}
+              whileHover={{ scale: 1.02, y: -3 }}
               whileTap={{ scale: 0.95 }}
+              style={{ cursor: 'default' }}
             >
               <Button 
                 variant="outline" 
@@ -337,6 +340,127 @@ export default function Home() {
             </motion.div>
           </motion.div>
         </motion.div>
+      </section>
+
+      {/* What You Get Section - Comprehensive Benefits */}
+      <section className="relative py-24 bg-gradient-to-br from-background via-muted/30 to-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
+              What You Get
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Everything you need to build amazing apps with world-class authentication
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            {[
+              {
+                title: "Complete Firebase Setup",
+                description: "Pre-configured Firebase authentication with Google OAuth, email verification, and user management. No complex setup required.",
+                benefits: ["Google OAuth integration", "Email verification", "User profile management", "Session persistence"]
+              },
+              {
+                title: "Production-Ready Code",
+                description: "Clean, well-documented TypeScript code following best practices. Ready to deploy and scale with your business.",
+                benefits: ["TypeScript throughout", "React 18 optimized", "Error boundaries", "Performance optimized"]
+              },
+              {
+                title: "Beautiful UI Components",
+                description: "Stunning shadcn/ui components with Tailwind CSS. Responsive design that works perfectly on all devices.",
+                benefits: ["Responsive design", "Accessibility features", "Dark/light themes", "Mobile optimized"]
+              },
+              {
+                title: "Developer Experience",
+                description: "Hot reload, TypeScript intellisense, and comprehensive documentation. Start building immediately.",
+                benefits: ["Hot reload setup", "VSCode ready", "Comprehensive docs", "AI agent compatible"]
+              },
+              {
+                title: "Deployment Ready",
+                description: "Deploy anywhere with included guides for Vercel, Netlify, and more. CI/CD configurations included.",
+                benefits: ["Multiple deploy options", "Environment configs", "Build optimizations", "CDN ready"]
+              },
+              {
+                title: "Open Source Freedom",
+                description: "MIT licensed with no restrictions. Modify, extend, and use commercially without any limitations.",
+                benefits: ["MIT license", "Commercial use", "No restrictions", "Community support"]
+              }
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -5 }}
+                style={{ cursor: 'default' }}
+              >
+                <Card className="h-full p-6 hover:shadow-lg transition-all duration-300 bg-card/50 backdrop-blur-sm border-border/50">
+                  <h3 className="text-xl font-bold mb-3 text-foreground">{item.title}</h3>
+                  <p className="text-muted-foreground mb-4 leading-relaxed">{item.description}</p>
+                  <ul className="space-y-2">
+                    {item.benefits.map((benefit, i) => (
+                      <li key={i} className="flex items-center text-sm text-muted-foreground">
+                        <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                        {benefit}
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Call to Action in What You Get section */}
+          <motion.div 
+            className="text-center"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <div className="bg-gradient-to-r from-primary/10 to-blue-500/10 rounded-2xl p-8 border border-primary/20">
+              <h3 className="text-2xl font-bold mb-4 text-foreground">Ready to Build Something Amazing?</h3>
+              <p className="text-lg text-muted-foreground mb-6">Join thousands of developers who chose FireAuthFlow for their projects</p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                {!user ? (
+                  <Link href="/login">
+                    <motion.div whileHover={{ scale: 1.05 }} style={{ cursor: 'default' }}>
+                      <Button size="lg" className="text-lg px-8 py-4 bg-gradient-to-r from-primary to-blue-500 hover:from-blue-500 hover:to-primary">
+                        <Sparkles className="mr-2 h-5 w-5" />
+                        Start Building Now
+                      </Button>
+                    </motion.div>
+                  </Link>
+                ) : (
+                  <Link href="/dashboard">
+                    <motion.div whileHover={{ scale: 1.05 }} style={{ cursor: 'default' }}>
+                      <Button size="lg" className="text-lg px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-500">
+                        <CheckCircle className="mr-2 h-5 w-5" />
+                        View Dashboard
+                      </Button>
+                    </motion.div>
+                  </Link>
+                )}
+                <motion.div whileHover={{ scale: 1.05 }} style={{ cursor: 'default' }}>
+                  <Button variant="outline" size="lg" className="text-lg px-8 py-4 border-2" asChild>
+                    <a href="https://github.com/autosterea/FireAuthFlow" target="_blank" rel="noopener noreferrer">
+                      <Github className="mr-2 h-5 w-5" />
+                      Get Source Code
+                    </a>
+                  </Button>
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       {/* Features Section with amazing cards */}
