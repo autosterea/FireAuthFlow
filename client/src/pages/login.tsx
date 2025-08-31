@@ -5,7 +5,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 import { signInWithGoogle } from "@/lib/firebase";
-import { ArrowLeft, Home } from "lucide-react";
+import { ArrowLeft, Home, Sparkles } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Login() {
   const { user } = useAuth();
@@ -23,10 +24,13 @@ export default function Login() {
       console.log("Starting Google sign-in...");
       const result = await signInWithGoogle();
       console.log("Sign-in result:", result);
+      
+      // Show success toast with confetti
       toast({
-        title: "Success",
-        description: "Successfully signed in!",
+        title: "🎉 Success!",
+        description: "Welcome to FireAuthFlow! Redirecting to your dashboard...",
       });
+      
     } catch (error: any) {
       console.error("Sign-in error:", error);
       toast({
