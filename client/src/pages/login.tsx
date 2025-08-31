@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Redirect } from "wouter";
+import { Redirect, Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 import { signInWithGoogle } from "@/lib/firebase";
+import { ArrowLeft, Home } from "lucide-react";
 
 export default function Login() {
   const { user } = useAuth();
@@ -39,7 +40,20 @@ export default function Login() {
   };
 
   return (
-    <div className="auth-container min-h-screen flex items-center justify-center p-4">
+    <div className="auth-container min-h-screen flex items-center justify-center p-4 relative">
+      {/* Back to Home Button */}
+      <Link href="/">
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="absolute top-6 left-6 text-muted-foreground hover:text-foreground transition-all duration-300 hover:scale-105 hover:bg-background/80 backdrop-blur-sm"
+          data-testid="button-back-home"
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to Home
+        </Button>
+      </Link>
+      
       <div className="w-full max-w-md space-y-8 fade-in">
         {/* Firebase Logo and Branding */}
         <div className="text-center">
@@ -59,7 +73,7 @@ export default function Login() {
               {/* Google Sign In Button */}
               <Button 
                 type="button" 
-                className="w-full bg-primary text-primary-foreground py-4 font-medium hover:bg-primary/90 focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background transition-all duration-200 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-white text-gray-700 border border-gray-300 py-4 font-medium hover:bg-gray-50 hover:shadow-lg focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-background transition-all duration-300 text-lg disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] shadow-md"
                 onClick={handleGoogleLogin}
                 disabled={isLoading}
                 data-testid="button-google-login"
