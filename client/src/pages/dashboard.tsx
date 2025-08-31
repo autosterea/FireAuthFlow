@@ -1,18 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/hooks/use-auth";
 import { logout } from "@/lib/firebase";
 import { useToast } from "@/hooks/use-toast";
 import { 
-  Users, 
-  Zap, 
-  HardDrive, 
   CheckCircle, 
-  Bell, 
-  Database, 
-  Shield, 
-  Upload, 
-  BarChart3 
+  User, 
+  Mail, 
+  Shield,
+  Calendar,
+  LogOut
 } from "lucide-react";
 
 export default function Dashboard() {
@@ -35,12 +32,9 @@ export default function Dashboard() {
     }
   };
 
-  const getUserInitials = (email: string) => {
-    return email.charAt(0).toUpperCase();
-  };
-
-  const getFirstName = (email: string) => {
-    return email.split('@')[0];
+  const formatDate = (timestamp: string | null) => {
+    if (!timestamp) return "N/A";
+    return new Date(timestamp).toLocaleDateString();
   };
 
   return (
@@ -56,23 +50,27 @@ export default function Dashboard() {
                   <path d="M5.5 5.5L7.5 21.5L12 18.5L16.5 21.5L18.5 5.5L12 8.5L5.5 5.5Z"/>
                 </svg>
               </div>
-              <span className="text-lg font-semibold text-foreground">Firebase Console</span>
+              <span className="text-lg font-semibold text-foreground">Firebase Authentication Demo</span>
             </div>
 
             {/* User Menu */}
             <div className="flex items-center space-x-4">
-              {/* Notifications */}
-              <Button variant="ghost" size="icon" data-testid="button-notifications">
-                <Bell className="h-5 w-5" />
-              </Button>
-
               {/* User Profile */}
               <div className="flex items-center space-x-3">
-                <div className="h-8 w-8 bg-primary rounded-full flex items-center justify-center" data-testid="avatar-user">
-                  <span className="text-sm font-medium text-primary-foreground">
-                    {user?.email ? getUserInitials(user.email) : "U"}
-                  </span>
-                </div>
+                {user?.photoURL ? (
+                  <img 
+                    src={user.photoURL} 
+                    alt="Profile" 
+                    className="h-8 w-8 rounded-full"
+                    data-testid="avatar-user"
+                  />
+                ) : (
+                  <div className="h-8 w-8 bg-primary rounded-full flex items-center justify-center" data-testid="avatar-user">
+                    <span className="text-sm font-medium text-primary-foreground">
+                      {user?.email?.charAt(0).toUpperCase() || "U"}
+                    </span>
+                  </div>
+                )}
                 <span className="text-sm font-medium text-foreground hidden sm:block" data-testid="text-username">
                   {user?.displayName || user?.email?.split('@')[0] || "User"}
                 </span>
@@ -82,6 +80,7 @@ export default function Dashboard() {
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   data-testid="button-logout"
                 >
+                  <LogOut className="h-4 w-4 mr-1" />
                   Sign out
                 </Button>
               </div>
@@ -93,188 +92,157 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
-        <div className="mb-8 slide-up">
-          <h1 className="text-3xl font-bold text-foreground mb-2" data-testid="text-welcome">
-            Welcome back, {user?.email ? getFirstName(user.email) : "User"}!
-          </h1>
-          <p className="text-muted-foreground">Here's what's happening with your Firebase projects today.</p>
+        <div className="mb-8">
+          <div className="flex items-center mb-4">
+            <CheckCircle className="h-8 w-8 text-green-500 mr-3" />
+            <h1 className="text-3xl font-bold text-foreground" data-testid="text-welcome">
+              Authentication Successful!
+            </h1>
+          </div>
+          <p className="text-muted-foreground">
+            You have successfully signed in using Firebase Authentication with Google.
+          </p>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="bg-card border-border slide-up" data-testid="card-stats-users">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Active Users</p>
-                  <p className="text-2xl font-bold text-foreground">1,234</p>
-                </div>
-                <div className="h-10 w-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <Users className="h-5 w-5 text-primary" />
-                </div>
-              </div>
-              <div className="mt-4 flex items-center text-sm">
-                <span className="text-chart-2 font-medium">+12%</span>
-                <span className="text-muted-foreground ml-1">from last week</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-card border-border slide-up" data-testid="card-stats-requests">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">API Requests</p>
-                  <p className="text-2xl font-bold text-foreground">45.2K</p>
-                </div>
-                <div className="h-10 w-10 bg-chart-1/10 rounded-lg flex items-center justify-center">
-                  <Zap className="h-5 w-5 text-chart-1" />
-                </div>
-              </div>
-              <div className="mt-4 flex items-center text-sm">
-                <span className="text-chart-2 font-medium">+8%</span>
-                <span className="text-muted-foreground ml-1">from last week</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-card border-border slide-up" data-testid="card-stats-storage">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Storage Used</p>
-                  <p className="text-2xl font-bold text-foreground">2.4 GB</p>
-                </div>
-                <div className="h-10 w-10 bg-chart-3/10 rounded-lg flex items-center justify-center">
-                  <HardDrive className="h-5 w-5 text-chart-3" />
-                </div>
-              </div>
-              <div className="mt-4 flex items-center text-sm">
-                <span className="text-chart-2 font-medium">+5%</span>
-                <span className="text-muted-foreground ml-1">from last week</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-card border-border slide-up" data-testid="card-stats-errors">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Error Rate</p>
-                  <p className="text-2xl font-bold text-foreground">0.02%</p>
-                </div>
-                <div className="h-10 w-10 bg-chart-4/10 rounded-lg flex items-center justify-center">
-                  <CheckCircle className="h-5 w-5 text-chart-4" />
-                </div>
-              </div>
-              <div className="mt-4 flex items-center text-sm">
-                <span className="text-destructive font-medium">-2%</span>
-                <span className="text-muted-foreground ml-1">from last week</span>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Recent Activity and Quick Actions */}
+        {/* Firebase Authentication Details */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Recent Activity */}
-          <Card className="bg-card border-border slide-up" data-testid="card-activity">
-            <div className="p-6 border-b border-border">
-              <h3 className="text-lg font-semibold text-foreground">Recent Activity</h3>
-            </div>
-            <CardContent className="p-6">
-              <div className="space-y-4">
-                <div className="flex items-start space-x-3" data-testid="activity-item-1">
-                  <div className="h-8 w-8 bg-primary/10 rounded-full flex items-center justify-center">
-                    <Users className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-foreground">New user registered</p>
-                    <p className="text-xs text-muted-foreground">user@example.com joined 2 minutes ago</p>
-                  </div>
+          {/* User Information */}
+          <Card className="bg-card border-border" data-testid="card-user-info">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <User className="h-5 w-5 mr-2 text-primary" />
+                User Information
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-start space-x-3">
+                <Mail className="h-5 w-5 text-muted-foreground mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-foreground">Email</p>
+                  <p className="text-sm text-muted-foreground" data-testid="text-user-email">
+                    {user?.email || "Not available"}
+                  </p>
                 </div>
+              </div>
 
-                <div className="flex items-start space-x-3" data-testid="activity-item-2">
-                  <div className="h-8 w-8 bg-chart-1/10 rounded-full flex items-center justify-center">
-                    <Database className="h-4 w-4 text-chart-1" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-foreground">Database write operation</p>
-                    <p className="text-xs text-muted-foreground">Updated user profile 5 minutes ago</p>
-                  </div>
+              <div className="flex items-start space-x-3">
+                <User className="h-5 w-5 text-muted-foreground mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-foreground">Display Name</p>
+                  <p className="text-sm text-muted-foreground" data-testid="text-display-name">
+                    {user?.displayName || "Not set"}
+                  </p>
                 </div>
+              </div>
 
-                <div className="flex items-start space-x-3" data-testid="activity-item-3">
-                  <div className="h-8 w-8 bg-chart-3/10 rounded-full flex items-center justify-center">
-                    <Upload className="h-4 w-4 text-chart-3" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-foreground">File uploaded to Storage</p>
-                    <p className="text-xs text-muted-foreground">profile-image.jpg uploaded 8 minutes ago</p>
-                  </div>
+              <div className="flex items-start space-x-3">
+                <Shield className="h-5 w-5 text-muted-foreground mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-foreground">User ID (UID)</p>
+                  <p className="text-sm text-muted-foreground font-mono break-all" data-testid="text-user-uid">
+                    {user?.uid || "Not available"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-3">
+                <CheckCircle className="h-5 w-5 text-muted-foreground mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-foreground">Email Verified</p>
+                  <p className="text-sm text-muted-foreground" data-testid="text-email-verified">
+                    {user?.emailVerified ? "Yes" : "No"}
+                  </p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Quick Actions */}
-          <Card className="bg-card border-border slide-up" data-testid="card-actions">
-            <div className="p-6 border-b border-border">
-              <h3 className="text-lg font-semibold text-foreground">Quick Actions</h3>
-            </div>
-            <CardContent className="p-6">
-              <div className="grid grid-cols-2 gap-4">
-                <Button 
-                  variant="ghost" 
-                  className="p-4 h-auto bg-accent hover:bg-accent/80 transition-colors group text-left flex flex-col items-start"
-                  data-testid="action-database"
-                >
-                  <div className="h-8 w-8 bg-primary/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">
-                    <Database className="h-4 w-4 text-primary" />
-                  </div>
-                  <p className="text-sm font-medium text-foreground">Database</p>
-                  <p className="text-xs text-muted-foreground">Manage collections</p>
-                </Button>
+          {/* Authentication Details */}
+          <Card className="bg-card border-border" data-testid="card-auth-details">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Shield className="h-5 w-5 mr-2 text-primary" />
+                Authentication Details
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-start space-x-3">
+                <CheckCircle className="h-5 w-5 text-green-500 mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-foreground">Authentication Status</p>
+                  <p className="text-sm text-green-600 font-medium" data-testid="text-auth-status">
+                    Authenticated
+                  </p>
+                </div>
+              </div>
 
-                <Button 
-                  variant="ghost" 
-                  className="p-4 h-auto bg-accent hover:bg-accent/80 transition-colors group text-left flex flex-col items-start"
-                  data-testid="action-auth"
-                >
-                  <div className="h-8 w-8 bg-chart-1/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-chart-1/20 transition-colors">
-                    <Shield className="h-4 w-4 text-chart-1" />
-                  </div>
-                  <p className="text-sm font-medium text-foreground">Authentication</p>
-                  <p className="text-xs text-muted-foreground">Manage users</p>
-                </Button>
+              <div className="flex items-start space-x-3">
+                <Shield className="h-5 w-5 text-muted-foreground mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-foreground">Authentication Provider</p>
+                  <p className="text-sm text-muted-foreground" data-testid="text-auth-provider">
+                    Google
+                  </p>
+                </div>
+              </div>
 
-                <Button 
-                  variant="ghost" 
-                  className="p-4 h-auto bg-accent hover:bg-accent/80 transition-colors group text-left flex flex-col items-start"
-                  data-testid="action-storage"
-                >
-                  <div className="h-8 w-8 bg-chart-3/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-chart-3/20 transition-colors">
-                    <Upload className="h-4 w-4 text-chart-3" />
-                  </div>
-                  <p className="text-sm font-medium text-foreground">Storage</p>
-                  <p className="text-xs text-muted-foreground">Upload files</p>
-                </Button>
+              <div className="flex items-start space-x-3">
+                <Calendar className="h-5 w-5 text-muted-foreground mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-foreground">Account Creation</p>
+                  <p className="text-sm text-muted-foreground" data-testid="text-creation-time">
+                    {user?.metadata?.creationTime ? 
+                      new Date(user.metadata.creationTime).toLocaleDateString() + ' at ' + 
+                      new Date(user.metadata.creationTime).toLocaleTimeString() : 
+                      "Not available"
+                    }
+                  </p>
+                </div>
+              </div>
 
-                <Button 
-                  variant="ghost" 
-                  className="p-4 h-auto bg-accent hover:bg-accent/80 transition-colors group text-left flex flex-col items-start"
-                  data-testid="action-analytics"
-                >
-                  <div className="h-8 w-8 bg-chart-4/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-chart-4/20 transition-colors">
-                    <BarChart3 className="h-4 w-4 text-chart-4" />
-                  </div>
-                  <p className="text-sm font-medium text-foreground">Analytics</p>
-                  <p className="text-xs text-muted-foreground">View reports</p>
-                </Button>
+              <div className="flex items-start space-x-3">
+                <Calendar className="h-5 w-5 text-muted-foreground mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-foreground">Last Sign In</p>
+                  <p className="text-sm text-muted-foreground" data-testid="text-last-signin">
+                    {user?.metadata?.lastSignInTime ? 
+                      new Date(user.metadata.lastSignInTime).toLocaleDateString() + ' at ' + 
+                      new Date(user.metadata.lastSignInTime).toLocaleTimeString() : 
+                      "Not available"
+                    }
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-3">
+                <User className="h-5 w-5 text-muted-foreground mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-foreground">Anonymous User</p>
+                  <p className="text-sm text-muted-foreground" data-testid="text-anonymous">
+                    {user?.isAnonymous ? "Yes" : "No"}
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>
         </div>
+
+        {/* Success Message */}
+        <Card className="bg-green-50 border-green-200 mt-8" data-testid="card-success">
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <CheckCircle className="h-8 w-8 text-green-500 mr-4" />
+              <div>
+                <h3 className="text-lg font-semibold text-green-800">
+                  Firebase Authentication Working Successfully!
+                </h3>
+                <p className="text-green-700 mt-1">
+                  Your Firebase authentication is properly configured and working. The user has been successfully authenticated using Google OAuth and all user information is being retrieved correctly from Firebase.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </main>
     </div>
   );

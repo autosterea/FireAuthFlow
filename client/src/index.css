@@ -98,7 +98,7 @@
   }
 
   html {
-    @apply dark;
+    /* Light mode by default */
   }
 }
 
