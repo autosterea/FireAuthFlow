@@ -510,14 +510,14 @@ export default function Home() {
               <p className="text-lg text-muted-foreground mb-6">Join thousands of developers who chose FireAuthFlow for their projects</p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 {!user ? (
-                  <motion.div whileHover={{ scale: 1.05 }} style={{ cursor: 'default' }}>
-                    <Button size="lg" className="text-lg px-8 py-4 bg-gradient-to-r from-primary to-blue-500 hover:from-blue-500 hover:to-primary" asChild>
-                      <a href="https://github.com/autosterea/FireAuthFlow" target="_blank" rel="noopener noreferrer">
-                        <Github className="mr-2 h-5 w-5" />
-                        Code Base
-                      </a>
-                    </Button>
-                  </motion.div>
+                  <Link href="/login">
+                    <motion.div whileHover={{ scale: 1.05 }} style={{ cursor: 'default' }}>
+                      <Button size="lg" className="text-lg px-8 py-4 bg-gradient-to-r from-primary to-blue-500 hover:from-blue-500 hover:to-primary">
+                        <Sparkles className="mr-2 h-5 w-5" />
+                        Test it
+                      </Button>
+                    </motion.div>
+                  </Link>
                 ) : (
                   <Link href="/dashboard">
                     <motion.div whileHover={{ scale: 1.05 }} style={{ cursor: 'default' }}>
