@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, onAuthStateChanged, User } from "firebase/auth";
+import { getAuth, signInWithRedirect, signInWithPopup, getRedirectResult, GoogleAuthProvider, signOut, onAuthStateChanged, User } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "demo-api-key",
@@ -16,11 +16,31 @@ export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 
 // Auth functions
-export const signInWithGoogle = () => {
+export const signInWithGooglePopup = async () => {
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    return result;
+  } catch (error) {
+    console.error('Error with popup sign-in:', error);
+    throw error;
+  }
+};
+
+export const signInWithGoogleRedirect = () => {
   return signInWithRedirect(auth, googleProvider);
 };
 
-// Handle redirect result when user comes back from Google
+// Use popup for development, redirect for production
+export const signInWithGoogle = () => {
+  // Use popup for localhost/development, redirect for production
+  if (window.location.hostname === 'localhost' || window.location.hostname.includes('.replit.dev')) {
+    return signInWithGooglePopup();
+  } else {
+    return signInWithGoogleRedirect();
+  }
+};
+
+// Handle redirect result when user comes back from Google (only needed for redirect flow)
 export const handleRedirectResult = async () => {
   try {
     const result = await getRedirectResult(auth);

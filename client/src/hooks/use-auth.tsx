@@ -25,12 +25,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Handle redirect result first
+    // Only handle redirect result if not using popup (not localhost/replit.dev)
     const checkRedirectResult = async () => {
-      try {
-        await handleRedirectResult();
-      } catch (error) {
-        console.error('Redirect result error:', error);
+      if (!window.location.hostname.includes('localhost') && !window.location.hostname.includes('.replit.dev')) {
+        try {
+          await handleRedirectResult();
+        } catch (error) {
+          console.error('Redirect result error:', error);
+        }
       }
     };
     
