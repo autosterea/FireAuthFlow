@@ -512,9 +512,9 @@ export default function Home() {
                 {!user ? (
                   <motion.div whileHover={{ scale: 1.05 }} style={{ cursor: 'default' }}>
                     <Button size="lg" className="text-lg px-8 py-4 bg-gradient-to-r from-primary to-blue-500 hover:from-blue-500 hover:to-primary" asChild>
-                      <a href="https://github.com/autosterea/FireAuthFlow#readme" target="_blank" rel="noopener noreferrer">
-                        <BookOpen className="mr-2 h-5 w-5" />
-                        GitHub Documentation
+                      <a href="https://github.com/autosterea/FireAuthFlow" target="_blank" rel="noopener noreferrer">
+                        <Github className="mr-2 h-5 w-5" />
+                        Code Base
                       </a>
                     </Button>
                   </motion.div>
@@ -530,9 +530,9 @@ export default function Home() {
                 )}
                 <motion.div whileHover={{ scale: 1.05 }} style={{ cursor: 'default' }}>
                   <Button variant="outline" size="lg" className="text-lg px-8 py-4 border-2" asChild>
-                    <a href="https://github.com/autosterea/FireAuthFlow#readme" target="_blank" rel="noopener noreferrer">
-                      <BookOpen className="mr-2 h-5 w-5" />
-                      GitHub Documentation
+                    <a href="https://github.com/autosterea/FireAuthFlow" target="_blank" rel="noopener noreferrer">
+                      <Github className="mr-2 h-5 w-5" />
+                      Code Base
                     </a>
                   </Button>
                 </motion.div>
